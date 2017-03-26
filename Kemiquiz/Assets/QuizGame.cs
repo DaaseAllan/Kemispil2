@@ -11,6 +11,8 @@ public class QuizGame : MonoBehaviour {
 public class Question {
 
 	public string questionName;
+	public string mulighed1;
+	public string mulighed2;
 	public int svar;
 
 
