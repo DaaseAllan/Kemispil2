@@ -10,10 +10,11 @@ public class SpilManager : MonoBehaviour {
 
 	private Question currentQuestion;
 
-	void start()
+	void Start()
 	{
 		Debug.Log ("Startet");
 		if (unansweredQuestions == null || unansweredQuestions.Count == 0) {
+			Debug.Log ("flytter array over i liste");
 			unansweredQuestions = questions.ToList<Question> ();
 		}
 

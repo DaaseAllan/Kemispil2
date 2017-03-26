@@ -7,6 +7,7 @@ public class QuizGame : MonoBehaviour {
 
 
 }
+[System.Serializable]
 public class Question {
 
 	public string questionName;
