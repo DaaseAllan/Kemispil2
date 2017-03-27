@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class SpilManager : MonoBehaviour {
@@ -30,6 +31,9 @@ public class SpilManager : MonoBehaviour {
 	private Text Blå1CharObject;
 	[SerializeField]
 	private Text Blå2CharObject;
+
+	[SerializeField]
+	private float delayBetweenQuestions;
 
 	void Start()
 	{
@@ -66,6 +70,16 @@ public class SpilManager : MonoBehaviour {
 		unansweredQuestions.RemoveAt (randomQuestionNummer);
 	}
 
+	IEnumerator TransitionTilNextQuestion ()
+	{
+		//Fjerner spørgsmålet fra listen over ubrugete spørgsmål.
+		unansweredQuestions.Remove(currentQuestion);
+
+		yield return new WaitForSeconds (delayBetweenQuestions);
+
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+	}
+
 	public void Player1Svar(int svar){
 
 		Debug.Log (svar);
@@ -93,6 +107,10 @@ public class SpilManager : MonoBehaviour {
 
 
 	}
+	void Update(){
+
+	}
+
 
 
 }
