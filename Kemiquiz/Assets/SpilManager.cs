@@ -14,6 +14,10 @@ public class SpilManager : MonoBehaviour {
 	string alleBogstaver = "ABCDEFGHIJKLMNOPGRSTUVWXYZ";
 	List<int> BrugteChar = new List<int>();
 
+	int BlåRigtigtSvar;
+	int RødRigtigtSvar;
+	bool FørsteSvar = true;
+
 	public char Rød1char;
 	public char Rød2char;
 	public char Blå1char;
@@ -23,6 +27,16 @@ public class SpilManager : MonoBehaviour {
 
 	[SerializeField]
 	private Text questiontext;
+	[SerializeField]
+	private Text Rød1Tekst;
+	[SerializeField]
+	private Text Rød2Tekst;
+	[SerializeField]
+	private Text Blue1Tekst;
+	[SerializeField]
+	private Text Blue2Tekst;
+
+	//Chartekst
 	[SerializeField]
 	private Text Rød1CharObject;
 	[SerializeField]
@@ -51,7 +65,34 @@ public class SpilManager : MonoBehaviour {
 		int randomQuestionNummer = Random.Range (0, unansweredQuestions.Count);
 		currentQuestion = unansweredQuestions [randomQuestionNummer];
 
+		//Sætter strinsne ind i kasserne.
+
 		questiontext.text = currentQuestion.questionName;
+		int etllerto = Random.Range (1, 3);
+		if (etllerto == 1) {
+			Rød1Tekst.text = currentQuestion.mulighed1;
+			Rød2Tekst.text = currentQuestion.mulighed2;
+			RødRigtigtSvar = 1;
+
+		} else {
+			Rød1Tekst.text = currentQuestion.mulighed2;
+			Rød2Tekst.text = currentQuestion.mulighed1;
+			RødRigtigtSvar = 2;
+
+		}
+			
+		etllerto = Random.Range (1, 3);
+		if (etllerto == 1) {
+			Blue1Tekst.text = currentQuestion.mulighed1;
+			Blue2Tekst.text = currentQuestion.mulighed2;
+			BlåRigtigtSvar = 1;
+
+		} else {
+			Blue1Tekst.text = currentQuestion.mulighed2;
+			Blue2Tekst.text = currentQuestion.mulighed1;
+			BlåRigtigtSvar = 2;
+
+		}
 
 		//Generator chars til de forskellige knapper og husker dem.
 		Rød1char = GenerateBogstav();
@@ -107,10 +148,34 @@ public class SpilManager : MonoBehaviour {
 
 
 	}
-	void Update(){
-
+	void Update ()
+	{
+		//Debug.Log (Input.inputString);
+		//Debug.Log (Blå1char.ToString ());
+		if (Input.inputString == Blå1char.ToString ().ToLower ()) {
+			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+				Debug.Log ("Blå vinder");
+			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+				Debug.Log ("Rød vinder");
+			}
+		} else if (Input.inputString == Blå2char.ToString ().ToLower ()) {
+			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+				Debug.Log ("Rød vinder");
+			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+				Debug.Log ("Blå vinder");
+			}
+		} else if (Input.inputString == Rød1char.ToString ().ToLower ()) {
+			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+				Debug.Log ("Rød vinder");
+			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+				Debug.Log ("Blå vinder");
+			} 
+		} else if (Input.inputString == Rød2char.ToString ().ToLower ()) {
+			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+					Debug.Log ("Blå vinder");
+			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+					Debug.Log ("Rød vinder");
+			}
 	}
-
-
-
+}
 }
