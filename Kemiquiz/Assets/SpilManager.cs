@@ -14,6 +14,8 @@ public class SpilManager : MonoBehaviour {
 	string alleBogstaver = "ABCDEFGHIJKLMNOPGRSTUVWXYZ";
 	List<int> BrugteChar = new List<int>();
 
+	bool winscreenbool =true;
+
 	int BlåRigtigtSvar;
 	int RødRigtigtSvar;
 	bool FørsteSvar = true;
@@ -135,12 +137,18 @@ public class SpilManager : MonoBehaviour {
 
 	IEnumerator TransitionTilNextQuestion ()
 	{
+		yield return new WaitForSeconds (1);
+		if (winscreenbool == true) {
+		
 		//Fjerner spørgsmålet fra listen over ubrugete spørgsmål.
 		unansweredQuestions.Remove(currentQuestion);
 
 		yield return new WaitForSeconds (delayBetweenQuestions);
 
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+		animator.SetTrigger ("Reset");
+		getRandomQuestion();
+		FørsteSvar = true;
+		}
 	}
 
 	public void Player1Svar(int svar){
@@ -176,38 +184,60 @@ public class SpilManager : MonoBehaviour {
 		//Debug.Log (Blå1char.ToString ());
 		if (Input.inputString == Blå1char.ToString ().ToLower ()) {
 			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Blå1", 1);
 				updateScore("blå");
 			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Blå1", 0);
 				updateScore("rød");
 			}
+			StartCoroutine (TransitionTilNextQuestion());
 		} else if (Input.inputString == Blå2char.ToString ().ToLower ()) {
 			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Blå2", 0);
 				updateScore("rød");
 			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Blå2", 1);
 				updateScore("blå");
 			}
+			StartCoroutine (TransitionTilNextQuestion());
 		} else if (Input.inputString == Rød1char.ToString ().ToLower ()) {
 			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Rød1", 1);
 				updateScore("rød");
 			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Rød1", 0);
 				updateScore("blå");
-			} 
+			}
+			StartCoroutine (TransitionTilNextQuestion());
 		} else if (Input.inputString == Rød2char.ToString ().ToLower ()) {
 			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Rød2", 0);
 				updateScore("blå");
 			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+				FørsteSvar = false;
 				Answertext ("Rød2", 1);
 				updateScore("rød");
 			}
+
+			StartCoroutine (TransitionTilNextQuestion());
+
+
 	}
+		if (scoreRød == 3 && winscreenbool == true) {
+			StartCoroutine (winscreen ("rød"));
+			winscreenbool = false;
+		} else if (scoreBlå == 3 && winscreenbool == true) {
+			StartCoroutine (winscreen ("blå"));
+			winscreenbool = false;
 }
+	}
 
 	void Answertext(string knapnavn, int rigtigt){
 
@@ -287,5 +317,19 @@ public class SpilManager : MonoBehaviour {
 		blåScore.text = "Blå score: " + scoreBlå;
 
 
+	}
+
+	IEnumerator winscreen (string vinder){
+		if (vinder == "rød") {
+			questiontext.text = "Rød har vundet";
+		} else if (vinder == "blå") {
+			questiontext.text = "Blå har vundet";
+		}
+		unansweredQuestions = questions.ToList<Question> ();
+
+		yield return new WaitForSeconds(5);
+		winscreenbool = true;
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			
 	}
 }
