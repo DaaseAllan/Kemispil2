@@ -46,8 +46,24 @@ public class SpilManager : MonoBehaviour {
 	[SerializeField]
 	private Text Blå2CharObject;
 
+
+	[SerializeField]
+	private Text Rød1AnswerText;
+
+	[SerializeField]
+	private Text Rød2AnswerText;
+
+	[SerializeField]
+	private Text Blå1AnswerText;
+
+	[SerializeField]
+	private Text Blå2AnswerText;
+
 	[SerializeField]
 	private float delayBetweenQuestions;
+
+	[SerializeField]
+	private Animator animator;
 
 	void Start()
 	{
@@ -154,28 +170,96 @@ public class SpilManager : MonoBehaviour {
 		//Debug.Log (Blå1char.ToString ());
 		if (Input.inputString == Blå1char.ToString ().ToLower ()) {
 			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
-				Debug.Log ("Blå vinder");
+				Answertext ("Blå1", 1);
 			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
-				Debug.Log ("Rød vinder");
+				Answertext ("Blå1", 0);
 			}
 		} else if (Input.inputString == Blå2char.ToString ().ToLower ()) {
 			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
-				Debug.Log ("Rød vinder");
+				Answertext ("Blå2", 0);
 			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
-				Debug.Log ("Blå vinder");
+				Answertext ("Blå2", 1);
 			}
 		} else if (Input.inputString == Rød1char.ToString ().ToLower ()) {
 			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
-				Debug.Log ("Rød vinder");
+				Answertext ("Rød1", 1);
 			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
-				Debug.Log ("Blå vinder");
+				Answertext ("Rød1", 0);
 			} 
 		} else if (Input.inputString == Rød2char.ToString ().ToLower ()) {
 			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
-					Debug.Log ("Blå vinder");
+				Answertext ("Rød2", 0);
 			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
-					Debug.Log ("Rød vinder");
+				Answertext ("Rød2", 1);
 			}
 	}
 }
+
+	void Answertext(string knapnavn, int rigtigt){
+
+
+
+		switch (knapnavn) {
+		case"Blå1":
+			Blå1AnswerText.enabled = true;
+			Blå2AnswerText.enabled = false;
+			Rød1AnswerText.enabled = false;
+			Rød2AnswerText.enabled = false;
+			animator.SetTrigger ("Blå1");
+			if (rigtigt == 1) {
+				
+				Blå1AnswerText.text = "Rigtigt";
+
+			} else {
+				Blå1AnswerText.text = "Forkert";
+			}
+			break;
+
+		case"Blå2":
+			Blå1AnswerText.enabled = false;
+			Blå2AnswerText.enabled = true;
+			Rød1AnswerText.enabled = false;
+			Rød2AnswerText.enabled = false;
+			animator.SetTrigger ("Blå2");
+			if (rigtigt == 1) {
+
+				Blå2AnswerText.text = "Rigtigt";
+
+			} else {
+				Blå2AnswerText.text = "Forkert";
+			}
+			break;
+
+		case"Rød1":
+			Blå1AnswerText.enabled = false;
+			Blå2AnswerText.enabled = false;
+			Rød1AnswerText.enabled = true;
+			Rød2AnswerText.enabled = false;
+			animator.SetTrigger ("Rød1");
+			if (rigtigt == 1) {
+
+				Rød1AnswerText.text = "Rigtigt";
+
+			} else {
+				Rød1AnswerText.text = "Forkert";
+			}
+			break;
+
+		case"Rød2":
+			Blå1AnswerText.enabled = false;
+			Blå2AnswerText.enabled = false;
+			Rød1AnswerText.enabled = false;
+			Rød2AnswerText.enabled = true;
+			animator.SetTrigger ("Rød2");
+			if (rigtigt == 1) {
+
+				Rød2AnswerText.text = "Rigtigt";
+
+			} else {
+				Rød2AnswerText.text = "Forkert";
+			}
+			break;
+		}
+
+	}
 }
