@@ -23,9 +23,14 @@ public class SpilManager : MonoBehaviour {
 	public char Blå1char;
 	public char Blå2char;
 
+    public int scoreRød;
+    public int scoreBlå;
 
-
-	[SerializeField]
+    [SerializeField]
+    public Text rødScore;
+    [SerializeField]
+    public Text blåScore;
+    [SerializeField]
 	private Text questiontext;
 	[SerializeField]
 	private Text Rød1Tekst;
@@ -148,34 +153,55 @@ public class SpilManager : MonoBehaviour {
 
 
 	}
-	void Update ()
-	{
-		//Debug.Log (Input.inputString);
-		//Debug.Log (Blå1char.ToString ());
-		if (Input.inputString == Blå1char.ToString ().ToLower ()) {
-			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
-				Debug.Log ("Blå vinder");
-			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
-				Debug.Log ("Rød vinder");
-			}
-		} else if (Input.inputString == Blå2char.ToString ().ToLower ()) {
-			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
-				Debug.Log ("Rød vinder");
-			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
-				Debug.Log ("Blå vinder");
-			}
-		} else if (Input.inputString == Rød1char.ToString ().ToLower ()) {
-			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
-				Debug.Log ("Rød vinder");
-			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
-				Debug.Log ("Blå vinder");
-			} 
-		} else if (Input.inputString == Rød2char.ToString ().ToLower ()) {
-			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
-					Debug.Log ("Blå vinder");
-			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
-					Debug.Log ("Rød vinder");
-			}
-	}
-}
+
+    public void updateScore(string vinder)
+    {
+        if (vinder == "rød")
+            scoreRød++;
+            rødScore.text = "Rød score: " + scoreRød;
+        if (vinder == "blå")
+            scoreBlå++;
+            blåScore.text = "Blå score: " + scoreBlå;
+
+        return;
+    }
+
+    void Update()
+    {
+        //Debug.Log (Input.inputString);
+        //Debug.Log (Blå1char.ToString ());
+        if (Input.inputString == Blå1char.ToString().ToLower()) {
+            if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            } else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            }
+        } else if (Input.inputString == Blå2char.ToString().ToLower()) {
+            if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            } else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            }
+        } else if (Input.inputString == Rød1char.ToString().ToLower()) {
+            if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            } else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            }
+        } else if (Input.inputString == Rød2char.ToString().ToLower()) {
+            if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            } else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            }
+        }
+    }
 }
