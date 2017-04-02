@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class SpilManager : MonoBehaviour {
+public class SpilManagerSimon : MonoBehaviour {
 
 	public Question[] questions;
 	private static List<Question> unansweredQuestions;
@@ -23,10 +23,14 @@ public class SpilManager : MonoBehaviour {
 	public char Blå1char;
 	public char Blå2char;
 
-	public int scoreRød;
-	public int scoreBlå;
+    public int scoreRød;
+    public int scoreBlå;
 
-	[SerializeField]
+    [SerializeField]
+    public Text rødScore;
+    [SerializeField]
+    public Text blåScore;
+    [SerializeField]
 	private Text questiontext;
 	[SerializeField]
 	private Text Rød1Tekst;
@@ -36,12 +40,6 @@ public class SpilManager : MonoBehaviour {
 	private Text Blue1Tekst;
 	[SerializeField]
 	private Text Blue2Tekst;
-
-	//scortext
-	[SerializeField]
-	public Text rødScore;
-	[SerializeField]
-	public Text blåScore;
 
 	//Chartekst
 	[SerializeField]
@@ -53,24 +51,8 @@ public class SpilManager : MonoBehaviour {
 	[SerializeField]
 	private Text Blå2CharObject;
 
-
-	[SerializeField]
-	private Text Rød1AnswerText;
-
-	[SerializeField]
-	private Text Rød2AnswerText;
-
-	[SerializeField]
-	private Text Blå1AnswerText;
-
-	[SerializeField]
-	private Text Blå2AnswerText;
-
 	[SerializeField]
 	private float delayBetweenQuestions;
-
-	[SerializeField]
-	private Animator animator;
 
 	void Start()
 	{
@@ -171,122 +153,55 @@ public class SpilManager : MonoBehaviour {
 
 
 	}
-	void Update ()
-	{
-		//Debug.Log (Input.inputString);
-		//Debug.Log (Blå1char.ToString ());
-		if (Input.inputString == Blå1char.ToString ().ToLower ()) {
-			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
-				Answertext ("Blå1", 1);
-				updateScore("blå");
-			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
-				Answertext ("Blå1", 0);
-				updateScore("rød");
-			}
-		} else if (Input.inputString == Blå2char.ToString ().ToLower ()) {
-			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
-				Answertext ("Blå2", 0);
-				updateScore("rød");
-			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
-				Answertext ("Blå2", 1);
-				updateScore("blå");
-			}
-		} else if (Input.inputString == Rød1char.ToString ().ToLower ()) {
-			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
-				Answertext ("Rød1", 1);
-				updateScore("rød");
-			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
-				Answertext ("Rød1", 0);
-				updateScore("blå");
-			} 
-		} else if (Input.inputString == Rød2char.ToString ().ToLower ()) {
-			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
-				Answertext ("Rød2", 0);
-				updateScore("blå");
-			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
-				Answertext ("Rød2", 1);
-				updateScore("rød");
-			}
-	}
-}
 
-	void Answertext(string knapnavn, int rigtigt){
+    public void updateScore(string vinder)
+    {
+        if (vinder == "rød")
+            scoreRød++;
+            rødScore.text = "Rød score: " + scoreRød;
+        if (vinder == "blå")
+            scoreBlå++;
+            blåScore.text = "Blå score: " + scoreBlå;
 
+        return;
+    }
 
-
-		switch (knapnavn) {
-		case"Blå1":
-			Blå1AnswerText.enabled = true;
-			Blå2AnswerText.enabled = false;
-			Rød1AnswerText.enabled = false;
-			Rød2AnswerText.enabled = false;
-			animator.SetTrigger ("Blå1");
-			if (rigtigt == 1) {
-				
-				Blå1AnswerText.text = "Rigtigt";
-
-			} else {
-				Blå1AnswerText.text = "Forkert";
-			}
-			break;
-
-		case"Blå2":
-			Blå1AnswerText.enabled = false;
-			Blå2AnswerText.enabled = true;
-			Rød1AnswerText.enabled = false;
-			Rød2AnswerText.enabled = false;
-			animator.SetTrigger ("Blå2");
-			if (rigtigt == 1) {
-
-				Blå2AnswerText.text = "Rigtigt";
-
-			} else {
-				Blå2AnswerText.text = "Forkert";
-			}
-			break;
-
-		case"Rød1":
-			Blå1AnswerText.enabled = false;
-			Blå2AnswerText.enabled = false;
-			Rød1AnswerText.enabled = true;
-			Rød2AnswerText.enabled = false;
-			animator.SetTrigger ("Rød1");
-			if (rigtigt == 1) {
-
-				Rød1AnswerText.text = "Rigtigt";
-
-			} else {
-				Rød1AnswerText.text = "Forkert";
-			}
-			break;
-
-		case"Rød2":
-			Blå1AnswerText.enabled = false;
-			Blå2AnswerText.enabled = false;
-			Rød1AnswerText.enabled = false;
-			Rød2AnswerText.enabled = true;
-			animator.SetTrigger ("Rød2");
-			if (rigtigt == 1) {
-
-				Rød2AnswerText.text = "Rigtigt";
-
-			} else {
-				Rød2AnswerText.text = "Forkert";
-			}
-			break;
-		}
-
-	}
-
-	public void updateScore(string vinder)
-	{
-		if (vinder == "rød")
-			scoreRød++;
-		rødScore.text = "Rød score: " + scoreRød;
-		if (vinder == "blå")
-			scoreBlå++;
-		blåScore.text = "Blå score: " + scoreBlå;
-
-		return;
-	}
+    void Update()
+    {
+        //Debug.Log (Input.inputString);
+        //Debug.Log (Blå1char.ToString ());
+        if (Input.inputString == Blå1char.ToString().ToLower()) {
+            if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            } else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            }
+        } else if (Input.inputString == Blå2char.ToString().ToLower()) {
+            if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            } else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            }
+        } else if (Input.inputString == Rød1char.ToString().ToLower()) {
+            if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            } else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            }
+        } else if (Input.inputString == Rød2char.ToString().ToLower()) {
+            if (RødRigtigtSvar == 1 && FørsteSvar == true) {
+                Debug.Log("Blå vinder");
+                updateScore("blå");
+            } else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
+                Debug.Log("Rød vinder");
+                updateScore("rød");
+            }
+        }
+    }
 }
