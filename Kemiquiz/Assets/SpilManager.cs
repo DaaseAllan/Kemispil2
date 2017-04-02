@@ -17,6 +17,8 @@ public class SpilManager : MonoBehaviour {
 	int BlåRigtigtSvar;
 	int RødRigtigtSvar;
 	bool FørsteSvar = true;
+	public int scoreRød;
+	public int scoreBlå;
 
 	public char Rød1char;
 	public char Rød2char;
@@ -35,6 +37,10 @@ public class SpilManager : MonoBehaviour {
 	private Text Blue1Tekst;
 	[SerializeField]
 	private Text Blue2Tekst;
+	[SerializeField]
+	public Text rødScore;
+	[SerializeField]
+	public Text blåScore;
 
 	//Chartekst
 	[SerializeField]
@@ -171,26 +177,34 @@ public class SpilManager : MonoBehaviour {
 		if (Input.inputString == Blå1char.ToString ().ToLower ()) {
 			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
 				Answertext ("Blå1", 1);
+				updateScore("blå");
 			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
 				Answertext ("Blå1", 0);
+				updateScore("rød");
 			}
 		} else if (Input.inputString == Blå2char.ToString ().ToLower ()) {
 			if (BlåRigtigtSvar == 1 && FørsteSvar == true) {
 				Answertext ("Blå2", 0);
+				updateScore("rød");
 			} else if (BlåRigtigtSvar == 2 && FørsteSvar == true) {
 				Answertext ("Blå2", 1);
+				updateScore("blå");
 			}
 		} else if (Input.inputString == Rød1char.ToString ().ToLower ()) {
 			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
 				Answertext ("Rød1", 1);
+				updateScore("rød");
 			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
 				Answertext ("Rød1", 0);
+				updateScore("blå");
 			} 
 		} else if (Input.inputString == Rød2char.ToString ().ToLower ()) {
 			if (RødRigtigtSvar == 1 && FørsteSvar == true) {
 				Answertext ("Rød2", 0);
+				updateScore("blå");
 			} else if (RødRigtigtSvar == 2 && FørsteSvar == true) {
 				Answertext ("Rød2", 1);
+				updateScore("rød");
 			}
 	}
 }
@@ -260,6 +274,18 @@ public class SpilManager : MonoBehaviour {
 			}
 			break;
 		}
+
+	}
+
+	public void updateScore(string vinder)
+	{
+		if (vinder == "rød")
+			scoreRød++;
+		rødScore.text = "Rød score: " + scoreRød;
+		if (vinder == "blå")
+			scoreBlå++;
+		blåScore.text = "Blå score: " + scoreBlå;
+
 
 	}
 }
